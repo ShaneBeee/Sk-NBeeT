@@ -7,14 +7,10 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.server.v1_12_R1.*;
 import org.bukkit.block.Block;
 import org.bukkit.event.Event;
-import net.minecraft.server.v1_13_R2.NBTTagCompound;
-import net.minecraft.server.v1_13_R2.MojangsonParser;
-import net.minecraft.server.v1_13_R2.BlockPosition;
-import net.minecraft.server.v1_13_R2.IBlockData;
-import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import javax.annotation.Nullable;
 
 @Name("NBT - Tile Entity")
@@ -29,8 +25,8 @@ public class ExprTileEntityNBT extends SimplePropertyExpression<Block, String> {
     @Override
     @Nullable
     public String convert(Block b) {
-        net.minecraft.server.v1_13_R2.World w = ((CraftWorld) b.getWorld()).getHandle();
-        net.minecraft.server.v1_13_R2.TileEntity te = w.getTileEntity(new BlockPosition(b.getX(), b.getY(), b.getZ()));
+        net.minecraft.server.v1_12_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
+        net.minecraft.server.v1_12_R1.TileEntity te = w.getTileEntity(new BlockPosition(b.getX(), b.getY(), b.getZ()));
         if (te == null) {
             return null;
         }
@@ -51,8 +47,8 @@ public class ExprTileEntityNBT extends SimplePropertyExpression<Block, String> {
         Block b = getExpr().getSingle(event);
         String value = ((String) delta[0]);
         NBTTagCompound nbt = new NBTTagCompound();
-        net.minecraft.server.v1_13_R2.World w = ((CraftWorld) b.getWorld()).getHandle();
-        net.minecraft.server.v1_13_R2.TileEntity te = w.getTileEntity(new BlockPosition(b.getX(), b.getY(), b.getZ()));
+        net.minecraft.server.v1_12_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
+        net.minecraft.server.v1_12_R1.TileEntity te = w.getTileEntity(new BlockPosition(b.getX(), b.getY(), b.getZ()));
         if (te != null) {
             switch (mode) {
                 case ADD:
@@ -61,7 +57,7 @@ public class ExprTileEntityNBT extends SimplePropertyExpression<Block, String> {
                         NBTTagCompound nbtv = MojangsonParser.parse(value);
                         nbt.a(nbtv);
                         te.load(nbt);
-                    } catch (CommandSyntaxException ex) {
+                    } catch (MojangsonParseException ex) {
                         Skript.warning("NBT parse error: " + ex.getMessage());
                     }
                     break;
@@ -69,7 +65,7 @@ public class ExprTileEntityNBT extends SimplePropertyExpression<Block, String> {
                     try {
                         NBTTagCompound nbtv = MojangsonParser.parse(value);
                         te.load(nbtv);
-                    } catch (CommandSyntaxException ex) {
+                    } catch (MojangsonParseException ex) {
                         Skript.warning("NBT parse error: " + ex.getMessage());
                     }
                     break;

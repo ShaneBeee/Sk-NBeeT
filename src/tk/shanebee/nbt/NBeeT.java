@@ -16,7 +16,7 @@ public class NBeeT extends JavaPlugin {
     public void onEnable() {
         if ((Bukkit.getPluginManager().getPlugin("Skript") != null) && (Skript.isAcceptRegistrations())) {
             String nms = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            if (nms.equals("v1_13_R2")) {
+            if (nms.equals("v1_12_R1")) {
                 getLogger().info(ChatColor.AQUA + "Compatible NMS version: " + nms);
                 instance = this;
                 addon = Skript.registerAddon(this);
@@ -29,7 +29,7 @@ public class NBeeT extends JavaPlugin {
             }
             else {
                 getLogger().info(ChatColor.RED + "Incompatible NMS version: " + nms);
-                getLogger().info(ChatColor.GOLD + "Please use Spigot 1.13.2");
+                getLogger().info(ChatColor.GOLD + "Please use Spigot 1.12.2");
                 Bukkit.getPluginManager().disablePlugin(this);
             }
         }
