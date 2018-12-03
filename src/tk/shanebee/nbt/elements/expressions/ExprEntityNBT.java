@@ -7,12 +7,12 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.util.coll.CollectionUtils;
-import net.minecraft.server.v1_12_R1.MojangsonParseException;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Event;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
-import net.minecraft.server.v1_12_R1.MojangsonParser;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.MojangsonParser;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftEntity;
 import javax.annotation.Nullable;
 
 @Name("NBT - Entity")
@@ -27,7 +27,7 @@ public class ExprEntityNBT extends SimplePropertyExpression<Entity, String> {
     @Override
     @Nullable
     public String convert(Entity e) {
-        net.minecraft.server.v1_12_R1.Entity nms = ((CraftEntity) e).getHandle();
+        net.minecraft.server.v1_13_R1.Entity nms = ((CraftEntity) e).getHandle();
         NBTTagCompound nbt = new NBTTagCompound();
         nms.c(nbt);
         return nbt.toString();
@@ -47,14 +47,14 @@ public class ExprEntityNBT extends SimplePropertyExpression<Entity, String> {
             String value = ((String) delta[0]);
             switch (mode) {
                 case ADD:
-                    net.minecraft.server.v1_12_R1.Entity nms = ((CraftEntity) e).getHandle();
+                    net.minecraft.server.v1_13_R1.Entity nms = ((CraftEntity) e).getHandle();
                     NBTTagCompound nbt = new NBTTagCompound();
                     nms.c(nbt);
                     try {
                         NBTTagCompound nbtv = MojangsonParser.parse(value);
                         nbt.a(nbtv);
                         nms.f(nbt);
-                    } catch (MojangsonParseException ex) {
+                    } catch (CommandSyntaxException ex) {
                         Skript.warning("NBT parse error: " + ex.getMessage());
                     }
                     break;

@@ -3,7 +3,7 @@ package tk.shanebee.nbt.elements.expressions;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import net.minecraft.server.v1_12_R1.MojangsonParseException;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import org.bukkit.event.Event;
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
@@ -11,8 +11,8 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.lang.ExpressionType;
 import ch.njol.util.Kleenean;
-import net.minecraft.server.v1_12_R1.MojangsonParser;
-import net.minecraft.server.v1_12_R1.NBTTagCompound;
+import net.minecraft.server.v1_13_R1.MojangsonParser;
+import net.minecraft.server.v1_13_R1.NBTTagCompound;
 import javax.annotation.Nullable;
 
 @Name("NBT - Tag")
@@ -50,7 +50,7 @@ public class ExprTagOfNBT extends SimpleExpression<String> {
             } else {
                 return null;
             }
-        } catch (MojangsonParseException ex) {
+        } catch (CommandSyntaxException ex) {
             Skript.warning("NBT parse error: " + ex.getMessage());
             return null;
         }
